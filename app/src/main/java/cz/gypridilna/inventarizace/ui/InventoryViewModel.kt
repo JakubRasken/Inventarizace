@@ -58,6 +58,7 @@ class InventoryViewModel : ViewModel() {
     }
 
     fun findItemByBarcode(barcode: String): InventoryItem? {
-        return _inventoryItems.value.find { it.barcode == barcode }
+        // Updated logic: Check if the item's ID ends with the scanned barcode.
+        return _inventoryItems.value.find { it.id?.endsWith(barcode) == true }
     }
 }
