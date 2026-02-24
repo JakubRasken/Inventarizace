@@ -87,4 +87,4 @@ Your spreadsheet **must** have a sheet named `inv` with the following columns (t
 
 ## Download
 
-Download can be found under the Release page.
+* Download can be found under the Release page.
