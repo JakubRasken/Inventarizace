@@ -5,13 +5,11 @@ import android.content.pm.PackageManager
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -19,15 +17,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
-import cz.gypridilna.inventarizace.data.entities.InventoryItem
+import androidx.navigation.NavController
+import cz.gypridilna.inventarizace.navigation.Screen
 import cz.gypridilna.inventarizace.ui.InventoryViewModel
 import cz.gypridilna.inventarizace.ui.components.CameraView
 
 @Composable
-fun ScannerScreen(viewModel: InventoryViewModel = viewModel()) {
+fun ScannerScreen(viewModel: InventoryViewModel = viewModel(), navController: NavController) {
     val context = LocalContext.current
     var hasCamPermission by remember {
         mutableStateOf(ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED)
@@ -42,8 +40,7 @@ fun ScannerScreen(viewModel: InventoryViewModel = viewModel()) {
         launcher.launch(Manifest.permission.CAMERA)
     }
 
-    var scannedBarcode by remember { mutableStateOf<String?>(null) }
-    val scannedItem: InventoryItem? = scannedBarcode?.let { viewModel.findItemByBarcode(it) }
+    val items by viewModel.inventoryItems.collectAsState()
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -53,25 +50,12 @@ fun ScannerScreen(viewModel: InventoryViewModel = viewModel()) {
             CameraView(
                 modifier = Modifier.fillMaxSize(),
                 onBarcodeScanned = { barcode ->
-                    scannedBarcode = barcode
+                    val item = items.find { it.id?.endsWith(barcode) == true }
+                    item?.id?.let { navController.navigate(Screen.Profile.createRoute(it)) }
                 }
             )
         } else {
             Text("Camera permission required")
-        }
-
-        scannedItem?.let {
-            Card(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .align(Alignment.BottomCenter)
-            ) {
-                Column(modifier = Modifier.padding(16.dp)) {
-                    Text(text = it.name ?: "N/A")
-                    Text(text = "Rack: ${it.rack ?: "-"}, Position: ${it.position ?: "-"}, Box: ${it.box ?: "-"}")
-                    Text(text = "ID: ${it.id ?: "N/A"}")
-                }
-            }
         }
     }
 }

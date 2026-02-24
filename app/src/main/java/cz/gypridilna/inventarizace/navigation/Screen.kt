@@ -9,9 +9,12 @@ import androidx.compose.ui.graphics.vector.ImageVector
 sealed class Screen(
     val route: String,
     val title: String,
-    val icon: ImageVector
+    val icon: ImageVector? = null
 ) {
-    object Scanner : Screen("scanner", "Scanner", Icons.Filled.QrCodeScanner)
+    object Scanner : Screen("scanner", "Scanner", Icons.Default.QrCodeScanner)
     object AddItem : Screen("add_item", "Add Item", Icons.Default.Add)
     object Search : Screen("search", "Search", Icons.Default.Search)
+    object Profile : Screen("profile/{itemId}", "Profile") {
+        fun createRoute(itemId: String) = "profile/$itemId"
+    }
 }

@@ -17,6 +17,7 @@ class InventoryViewModel : ViewModel() {
     private val repository = InventoryRepository(RetrofitClient.apiService)
 
     private val _inventoryItems = MutableStateFlow<List<InventoryItem>>(emptyList())
+    val inventoryItems: StateFlow<List<InventoryItem>> = _inventoryItems
 
     private val _searchQuery = MutableStateFlow("")
     val searchQuery: StateFlow<String> = _searchQuery
@@ -55,10 +56,5 @@ class InventoryViewModel : ViewModel() {
 
     fun onSearchQueryChanged(query: String) {
         _searchQuery.value = query
-    }
-
-    fun findItemByBarcode(barcode: String): InventoryItem? {
-        // Updated logic: Check if the item's ID ends with the scanned barcode.
-        return _inventoryItems.value.find { it.id?.endsWith(barcode) == true }
     }
 }

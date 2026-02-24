@@ -1,5 +1,6 @@
 package cz.gypridilna.inventarizace.ui.screens
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -17,10 +18,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import cz.gypridilna.inventarizace.navigation.Screen
 import cz.gypridilna.inventarizace.ui.InventoryViewModel
 
 @Composable
-fun SearchScreen(viewModel: InventoryViewModel = viewModel()) {
+fun SearchScreen(viewModel: InventoryViewModel = viewModel(), navController: NavController) {
     val searchQuery by viewModel.searchQuery.collectAsState()
     val items by viewModel.searchedItems.collectAsState()
 
@@ -31,7 +34,6 @@ fun SearchScreen(viewModel: InventoryViewModel = viewModel()) {
             label = { Text("Search") },
             modifier = Modifier
                 .fillMaxWidth()
-
                 .padding(8.dp),
             colors = TextFieldDefaults.colors(
                 cursorColor = MaterialTheme.colorScheme.primary,
@@ -44,7 +46,8 @@ fun SearchScreen(viewModel: InventoryViewModel = viewModel()) {
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(8.dp),
+                        .padding(8.dp)
+                        .clickable { item.id?.let { navController.navigate(Screen.Profile.createRoute(it)) } },
                     colors = CardDefaults.cardColors(
                         containerColor = MaterialTheme.colorScheme.surface
                     )

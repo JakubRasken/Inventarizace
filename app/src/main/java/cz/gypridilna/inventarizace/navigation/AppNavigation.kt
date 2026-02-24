@@ -13,11 +13,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import cz.gypridilna.inventarizace.ui.screens.AddItemScreen
+import cz.gypridilna.inventarizace.ui.screens.ProfileScreen
 import cz.gypridilna.inventarizace.ui.screens.ScannerScreen
 import cz.gypridilna.inventarizace.ui.screens.SearchScreen
 
@@ -38,7 +41,7 @@ fun AppNavigation() {
                 val currentDestination = navBackStackEntry?.destination
                 items.forEach { screen ->
                     NavigationBarItem(
-                        icon = { Icon(screen.icon, contentDescription = null) },
+                        icon = { Icon(screen.icon!!, contentDescription = null) },
                         label = { Text(screen.title) },
                         selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
                         onClick = {
@@ -67,9 +70,15 @@ fun AppNavigation() {
             startDestination = Screen.Scanner.route,
             Modifier.padding(innerPadding)
         ) {
-            composable(Screen.Scanner.route) { ScannerScreen() }
+            composable(Screen.Scanner.route) { ScannerScreen(navController = navController) }
             composable(Screen.AddItem.route) { AddItemScreen() }
-            composable(Screen.Search.route) { SearchScreen() }
+            composable(Screen.Search.route) { SearchScreen(navController = navController) }
+            composable(
+                route = Screen.Profile.route,
+                arguments = listOf(navArgument("itemId") { type = NavType.StringType })
+            ) { backStackEntry ->
+                ProfileScreen(itemId = backStackEntry.arguments?.getString("itemId"))
+            }
         }
     }
 }
