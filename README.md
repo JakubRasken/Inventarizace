@@ -81,4 +81,4 @@ Your spreadsheet **must** have a sheet named `inv` with the following columns (t
 
 ## Download
 
-Download the latest APK from the [Releases](https://github.com/your-username/your-repo-name/releases) page.
+Download the latest APK from the [Releases](](https://github.com/JakubRasken/Inventarizace/releases)) page.
