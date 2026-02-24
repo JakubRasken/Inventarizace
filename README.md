@@ -1,6 +1,6 @@
 # Inventarizace - Gypri Dílna
 
-An inventory management system for the GyPri Dílna technical workshop, built with modern Android development practices.
+An inventory management system for the Gypri Dílna technical workshop, built with modern Android development practices.
 
 ## Features
 
