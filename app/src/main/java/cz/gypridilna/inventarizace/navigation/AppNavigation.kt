@@ -19,6 +19,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import cz.gypridilna.inventarizace.ui.screens.AccessSystemScreen
 import cz.gypridilna.inventarizace.ui.screens.AddItemScreen
 import cz.gypridilna.inventarizace.ui.screens.ProfileScreen
 import cz.gypridilna.inventarizace.ui.screens.ScannerScreen
@@ -31,6 +32,7 @@ fun AppNavigation() {
         Screen.Scanner,
         Screen.AddItem,
         Screen.Search,
+        Screen.AccessSystem,
     )
     Scaffold(
         bottomBar = {
@@ -73,6 +75,7 @@ fun AppNavigation() {
             composable(Screen.Scanner.route) { ScannerScreen(navController = navController) }
             composable(Screen.AddItem.route) { AddItemScreen() }
             composable(Screen.Search.route) { SearchScreen(navController = navController) }
+            composable(Screen.AccessSystem.route) { AccessSystemScreen() }
             composable(
                 route = Screen.Profile.route,
                 arguments = listOf(navArgument("itemId") { type = NavType.StringType })

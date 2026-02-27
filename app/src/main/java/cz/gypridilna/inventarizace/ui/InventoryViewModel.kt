@@ -19,6 +19,9 @@ class InventoryViewModel : ViewModel() {
     private val _inventoryItems = MutableStateFlow<List<InventoryItem>>(emptyList())
     val inventoryItems: StateFlow<List<InventoryItem>> = _inventoryItems
 
+    private val _isLoading = MutableStateFlow(true)
+    val isLoading: StateFlow<Boolean> = _isLoading
+
     private val _searchQuery = MutableStateFlow("")
     val searchQuery: StateFlow<String> = _searchQuery
 
@@ -46,10 +49,13 @@ class InventoryViewModel : ViewModel() {
 
     private fun fetchInventory() {
         viewModelScope.launch {
+            _isLoading.value = true
             try {
                 _inventoryItems.value = repository.getInventory()
             } catch (e: Exception) {
                 // Handle error
+            } finally {
+                _isLoading.value = false
             }
         }
     }

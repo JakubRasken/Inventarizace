@@ -1,8 +1,8 @@
-# Inventarizace - Gypri Dílna
+# Inventarizace - GyPri Dílna
 
-An inventory management system for the Gypri Dílna technical workshop, built with modern Android development practices.
+An inventory management system for the GyPri Dílna technical workshop, built with modern Android development practices.
 
-## Features
+## ✨ Features
 
 *   **Barcode Scanner:** Instantly check inventory details by scanning barcodes or QR codes using the device's camera. When a valid item is scanned, it navigates directly to the item's detail page.
 *   **Item Search:** A persistent search bar to quickly find items by name, rack, or position.
@@ -11,7 +11,7 @@ An inventory management system for the Gypri Dílna technical workshop, built wi
 *   **Add New Items:** A seamless WebView integration to add new items through a dedicated Google Form.
 *   **Custom Branding:** A dark-themed UI built from the ground up, featuring the workshop's custom color palette and typography.
 
-## Tech Stack & Architecture
+## 🛠️ Tech Stack & Architecture
 
 *   **Language:** 100% [Kotlin](https://kotlinlang.org/)
 *   **UI Framework:** [Jetpack Compose](https://developer.android.com/jetpack/compose) with Material 3 design components.
@@ -22,7 +22,7 @@ An inventory management system for the Gypri Dílna technical workshop, built wi
 *   **Image Loading:** Local drawable resources for placement pictures.
 *   **Camera & ML:** [CameraX](https://developer.android.com/training/camerax) and [ML Kit Barcode Scanning](https://developers.google.com/ml-kit/vision/barcode-scanning) for the scanner functionality.
 
-## Setup & Configuration
+## ⚙️ Setup & Configuration
 
 This project uses a Google Sheet as a backend. To get the project running, you need to set up your own Google Sheet and deploy a Google Apps Script.
 
@@ -79,6 +79,6 @@ Your spreadsheet **must** have a sheet named `inv` with the following columns (t
 
 4.  **Placement Pictures:** Add all your local image files (e.g., `loc_1.png`, `loc_61.png`) to the `app/src/main/res/drawable` directory.
 
-## Download
+## 📥 Download
 
-Download the latest APK from the [Releases](https://github.com/JakubRasken/Inventarizace/releases) page.
+Download the latest APK from the [Releases](https://github.com/your-username/your-repo-name/releases) page.

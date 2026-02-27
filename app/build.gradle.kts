@@ -23,6 +23,7 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
+            isShrinkResources = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -51,7 +52,6 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
     implementation("androidx.compose.material:material-icons-extended")
-    implementation("com.google.android.material:material:1.12.0")
 
     // Navigation
     implementation("androidx.navigation:navigation-compose:2.7.7")
@@ -69,14 +69,11 @@ dependencies {
     implementation("androidx.camera:camera-lifecycle:${cameraxVersion}")
     implementation("androidx.camera:camera-view:${cameraxVersion}")
 
-    // ML Kit
+    // ML Kit (Reverted to the stable, bundled version)
     implementation("com.google.mlkit:barcode-scanning:17.2.0")
 
     // WebView in Compose
     implementation("androidx.webkit:webkit:1.11.0")
-
-    // Google Fonts
-    implementation("androidx.compose.ui:ui-text-google-fonts:1.6.7")
 
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
