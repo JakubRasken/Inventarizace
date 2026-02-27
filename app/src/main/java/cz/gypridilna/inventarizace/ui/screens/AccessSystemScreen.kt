@@ -10,7 +10,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.webkit.WebSettingsCompat
 import androidx.webkit.WebViewFeature
 
-private const val ACCESS_SYSTEM_URL = "http://sshdilna.playit.plus:1226/"
+private const val ACCESS_SYSTEM_URL = "http://209.25.141.22:5513/"
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
