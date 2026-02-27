@@ -19,7 +19,7 @@ private val DarkColorScheme = darkColorScheme(
 )
 
 @Composable
-fun InventarizaceTheme(
+fun GypriDilnaTheme(
     content: @Composable () -> Unit
 ) {
     val colorScheme = DarkColorScheme

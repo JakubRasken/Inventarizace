@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import java.text.Normalizer
 
 class InventoryViewModel : ViewModel() {
 
@@ -30,10 +31,21 @@ class InventoryViewModel : ViewModel() {
             if (query.isBlank()) {
                 items
             } else {
-                items.filter {
-                    (it.name?.contains(query, ignoreCase = true) == true) ||
-                            (it.rack?.contains(query, ignoreCase = true) == true) ||
-                            (it.position?.contains(query, ignoreCase = true) == true)
+                val normalizedQuery = query.removeCzechDiacritics().lowercase()
+                items.filter { item ->
+                    val normalizedName = item.name?.removeCzechDiacritics()?.lowercase() ?: ""
+                    val normalizedId = item.id?.lowercase() ?: ""
+                    val normalizedBarcode = item.barcode?.lowercase() ?: ""
+                    val rack = item.rack?.lowercase() ?: ""
+                    val position = item.position?.lowercase() ?: ""
+
+                    normalizedName.contains(normalizedQuery) ||
+                            normalizedId.contains(normalizedQuery) ||
+                            normalizedBarcode.contains(normalizedQuery) ||
+                            rack.contains(normalizedQuery) ||
+                            position.contains(normalizedQuery) ||
+                            // Special check for ID match (e.g., 61-0016) or the last 4 digits (e.g., 0016)
+                            normalizedId.endsWith(normalizedQuery)
                 }
             }
         }
@@ -62,5 +74,16 @@ class InventoryViewModel : ViewModel() {
 
     fun onSearchQueryChanged(query: String) {
         _searchQuery.value = query
+    }
+
+    fun findItemByBarcode(barcode: String): InventoryItem? {
+        return _inventoryItems.value.find { it.id?.endsWith(barcode) == true }
+    }
+
+    private fun String.removeCzechDiacritics(): String {
+        return Normalizer.normalize(this, Normalizer.Form.NFD)
+            .replace("\\p{InCombiningDiacriticalMarks}".toRegex(), "")
+            .replace("ł", "l")
+            .replace("Ł", "L")
     }
 }
