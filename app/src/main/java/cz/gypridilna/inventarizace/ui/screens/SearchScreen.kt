@@ -25,8 +25,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
-import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
-import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -40,6 +38,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import cz.gypridilna.inventarizace.navigation.Screen
 import cz.gypridilna.inventarizace.ui.InventoryViewModel
+import cz.gypridilna.inventarizace.data.entities.InventoryItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -48,21 +47,10 @@ fun SearchScreen(viewModel: InventoryViewModel = viewModel(), navController: Nav
     val items by viewModel.searchedItems.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
 
-    val state = rememberPullToRefreshState()
-
     PullToRefreshBox(
         isRefreshing = isLoading,
         onRefresh = { viewModel.refreshInventory() },
-        state = state,
-        indicator = {
-            PullToRefreshDefaults.Indicator(
-                state = state,
-                isRefreshing = isLoading,
-                modifier = Modifier.align(Alignment.TopCenter),
-                containerColor = MaterialTheme.colorScheme.surface,
-                color = MaterialTheme.colorScheme.primary
-            )
-        }
+        modifier = Modifier.fillMaxSize()
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             TextField(
@@ -106,7 +94,7 @@ fun SearchScreen(viewModel: InventoryViewModel = viewModel(), navController: Nav
 }
 
 @Composable
-private fun InventoryItemCard(item: cz.gypridilna.inventarizace.data.entities.InventoryItem, onClick: () -> Unit) {
+private fun InventoryItemCard(item: InventoryItem, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()

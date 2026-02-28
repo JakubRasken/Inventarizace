@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace = "cz.gypridilna.inventarizace"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "cz.gypridilna.inventarizace"
         minSdk = 29
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -49,9 +49,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     
-    // Forced to 1.3.1 to support the modern PullToRefreshBox API
     implementation("androidx.compose.material3:material3:1.3.1")
-    
     implementation("androidx.compose.material:material-icons-extended")
 
     // Navigation
@@ -75,6 +73,11 @@ dependencies {
 
     // WebView in Compose
     implementation("androidx.webkit:webkit:1.12.1")
+
+    // Retrofit & Gson
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.google.code.gson:gson:2.10.1")
 
     // Splash Screen API
     implementation("androidx.core:core-splashscreen:1.0.1")
