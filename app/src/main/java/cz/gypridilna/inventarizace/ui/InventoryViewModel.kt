@@ -32,21 +32,7 @@ class InventoryViewModel : ViewModel() {
                 items
             } else {
                 val normalizedQuery = query.removeCzechDiacritics().lowercase()
-                items.filter { item ->
-                    val normalizedName = item.name?.removeCzechDiacritics()?.lowercase() ?: ""
-                    val normalizedId = item.id?.lowercase() ?: ""
-                    val normalizedBarcode = item.barcode?.lowercase() ?: ""
-                    val rack = item.rack?.lowercase() ?: ""
-                    val position = item.position?.lowercase() ?: ""
-
-                    normalizedName.contains(normalizedQuery) ||
-                            normalizedId.contains(normalizedQuery) ||
-                            normalizedBarcode.contains(normalizedQuery) ||
-                            rack.contains(normalizedQuery) ||
-                            position.contains(normalizedQuery) ||
-                            // Special check for ID match (e.g., 61-0016) or the last 4 digits (e.g., 0016)
-                            normalizedId.endsWith(normalizedQuery)
-                }
+                items.filter { it.matches(normalizedQuery) }
             }
         }
         .stateIn(
@@ -56,16 +42,16 @@ class InventoryViewModel : ViewModel() {
         )
 
     init {
-        fetchInventory()
+        refreshInventory()
     }
 
-    private fun fetchInventory() {
+    fun refreshInventory() {
         viewModelScope.launch {
             _isLoading.value = true
             try {
                 _inventoryItems.value = repository.getInventory()
             } catch (e: Exception) {
-                // Handle error
+                // Potential error logging here
             } finally {
                 _isLoading.value = false
             }
@@ -78,6 +64,21 @@ class InventoryViewModel : ViewModel() {
 
     fun findItemByBarcode(barcode: String): InventoryItem? {
         return _inventoryItems.value.find { it.id?.endsWith(barcode) == true }
+    }
+
+    private fun InventoryItem.matches(query: String): Boolean {
+        val normalizedName = name?.removeCzechDiacritics()?.lowercase() ?: ""
+        val normalizedId = id?.lowercase() ?: ""
+        val normalizedBarcode = barcode?.lowercase() ?: ""
+        val normalizedRack = rack?.lowercase() ?: ""
+        val normalizedPosition = position?.lowercase() ?: ""
+
+        return normalizedName.contains(query) ||
+                normalizedId.contains(query) ||
+                normalizedBarcode.contains(query) ||
+                normalizedRack.contains(query) ||
+                normalizedPosition.contains(query) ||
+                normalizedId.endsWith(query)
     }
 
     private fun String.removeCzechDiacritics(): String {

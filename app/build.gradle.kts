@@ -6,14 +6,12 @@ plugins {
 
 android {
     namespace = "cz.gypridilna.inventarizace"
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "cz.gypridilna.inventarizace"
         minSdk = 29
-        targetSdk = 36
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -50,34 +48,33 @@ dependencies {
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
-    implementation(libs.androidx.compose.material3)
+    
+    // Forced to 1.3.1 to support the modern PullToRefreshBox API
+    implementation("androidx.compose.material3:material3:1.3.1")
+    
     implementation("androidx.compose.material:material-icons-extended")
 
     // Navigation
-    implementation("androidx.navigation:navigation-compose:2.7.7")
+    implementation("androidx.navigation:navigation-compose:2.8.5")
 
     // ViewModel
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
 
     // Coil
-    implementation("io.coil-kt:coil-compose:2.6.0")
+    implementation("io.coil-kt:coil-compose:2.7.0")
 
     // CameraX
-    val cameraxVersion = "1.3.3"
+    val cameraxVersion = "1.4.1"
     implementation("androidx.camera:camera-core:${cameraxVersion}")
     implementation("androidx.camera:camera-camera2:${cameraxVersion}")
     implementation("androidx.camera:camera-lifecycle:${cameraxVersion}")
     implementation("androidx.camera:camera-view:${cameraxVersion}")
 
-    // ML Kit (Reverted to the stable, bundled version)
-    implementation("com.google.mlkit:barcode-scanning:17.2.0")
+    // ML Kit
+    implementation("com.google.mlkit:barcode-scanning:17.3.0")
 
     // WebView in Compose
-    implementation("androidx.webkit:webkit:1.11.0")
-
-    // Retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("androidx.webkit:webkit:1.12.1")
 
     // Splash Screen API
     implementation("androidx.core:core-splashscreen:1.0.1")
