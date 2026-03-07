@@ -1,12 +1,15 @@
 package cz.gypridilna.inventarizace.data.network
 
+import cz.gypridilna.inventarizace.BuildConfig
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 object RetrofitClient {
-    private const val BASE_URL = "https://script.google.com/macros/s/AKfycbzOZH0mQ2A51ZNoXaKgpI37wlv75qkrsy6vVzdzxRtuf8Agkq08WyvdOjD0axc2xAI/"
+    // BASE_URL is injected at build time from local.properties via BuildConfig.
+    // Never hardcode this value here — see local.properties.example for setup instructions.
+    private val BASE_URL = BuildConfig.APPS_SCRIPT_URL
 
     private val okHttpClient = OkHttpClient.Builder()
         .connectTimeout(15, TimeUnit.SECONDS)
