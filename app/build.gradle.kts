@@ -1,7 +1,16 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+}
+
+// Load local.properties
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(localPropertiesFile.inputStream())
 }
 
 android {
@@ -16,6 +25,13 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // Inject Apps Script URL from local.properties (never hardcode this)
+        buildConfigField(
+            "String",
+            "APPS_SCRIPT_URL",
+            "\"${localProperties.getProperty("APPS_SCRIPT_URL", "")}\""
+        )
     }
 
     buildTypes {
@@ -37,6 +53,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -62,11 +79,11 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.7.0")
 
     // CameraX
-    val cameraxVersion = "1.4.1"
-    implementation("androidx.camera:camera-core:${cameraxVersion}")
-    implementation("androidx.camera:camera-camera2:${cameraxVersion}")
-    implementation("androidx.camera:camera-lifecycle:${cameraxVersion}")
-    implementation("androidx.camera:camera-view:${cameraxVersion}")
+    val cameraXVersion = "1.4.1"
+    implementation("androidx.camera:camera-core:${cameraXVersion}")
+    implementation("androidx.camera:camera-camera2:${cameraXVersion}")
+    implementation("androidx.camera:camera-lifecycle:${cameraXVersion}")
+    implementation("androidx.camera:camera-view:${cameraXVersion}")
 
     // ML Kit
     implementation("com.google.mlkit:barcode-scanning:17.3.0")
